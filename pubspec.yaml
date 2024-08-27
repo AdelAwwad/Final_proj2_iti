@@ -76,6 +76,10 @@ flutter:
     - assets/image/four-circle2 (2).png
     - assets/image/loction.jpg
     - assets/image/Nike-Logo.png
+    - assets/image/Nike4.png
+    - assets/image/Nike5.jpg
+    - assets/image/Nike6.png
+    - assets/image/Nike6_Shadow.png
 
 
   fonts:
