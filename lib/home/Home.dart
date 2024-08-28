@@ -1,4 +1,5 @@
 import 'package:adel2/home/Sidewindow/SideWindow.dart';
+import 'package:adel2/home/repository/Repository.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:location/location.dart' as loc; // Alias 'loc' used here
@@ -11,52 +12,75 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //  loc.LocationData? _currentPosition; // Use the alias 'loc'
-  //  String? _currentAddress = "Ismailia,Egypt";
-  // // Use the alias 'loc'
   List<bool> isPressed = [false, true];
-  // void _navigateToSideWindow(){
-  //
-  // }
+  double xoffset = 0;
+  double yoffset = 0;
+  bool isDrawerOpen = false;
+  final ScrollController _scrollController = ScrollController();
+  late List<ShoesData> ShoesDataModelList;
 
   @override
   void initState() {
     super.initState();
+    repodata();
+    _scrollController.addListener(() {
+      print('Scroll position: ${_scrollController.position.pixels}');
+    });
+  }
+
+  @override
+  void dispose() {
+    // Dispose the controller when done
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void repodata() {
+    ShoesDataModelList = [
+      ShoesData("assets/image/Nike4.png", "Nike Jordan", 493.00),
+      ShoesData("assets/image/Nike5.jpg", "Nike Air Max", 897.99),
+      ShoesData('assets/image/Nike6.png', "New Air Jordan", 849.69),
+    ];
+  }
+
+  void _toggleDrawer() {
+    setState(() {
+      if (isDrawerOpen) {
+        xoffset = 0;
+        yoffset = 0;
+        isDrawerOpen = false;
+      } else {
+        xoffset = 280; // Values adjusted for drawer effect
+        yoffset = 80;
+        isDrawerOpen = true;
+      }
+    });
+  }
+
+  void _navigateToSideWindow() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Sidewindow()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(color: Color(0xFFF8F8F8)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: SizedBox(
-            width: 40,
-            height: 40,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              backgroundColor: Colors.white,
-              child: const Center(
-                child: Image(
-                  image: AssetImage("assets/image/four-circle2 (2).png"),
-                  // Correctly loading the image
-                  width: 24,
-                  // Adjust the size if needed
-                  height: 24,
-                ),
-              ),
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Sidewindow() ));
-                },
-              elevation: 0.5,
-            ),
+    return Stack(
+      children: [
+        const Sidewindow(),
+        AnimatedContainer(
+          transform: Matrix4.translationValues(xoffset, yoffset, 0)
+            ..scale(isDrawerOpen ? 0.85 : 1.00)
+            ..rotateZ(isDrawerOpen ? -0.05 : 0),
+          duration: const Duration(milliseconds: 200),
+          decoration: const BoxDecoration(color: Color(0xFFF8F8F8)),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: SingleChildScrollView(child: _page2()),
           ),
         ),
-        body: SingleChildScrollView(child: _page2()),
-      ),
+      ],
     );
   }
 
@@ -64,33 +88,19 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         _header(),
-        SizedBox(
-          height: 30,
-        ),
+        const SizedBox(height: 30),
         _srch(),
-        SizedBox(
-          height: 30,
-        ),
+        const SizedBox(height: 30),
         _slct(),
-        SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         _Poptxt(),
-        SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         _Bstsell(),
-        SizedBox(
-          height: 40,
-        ),
+        const SizedBox(height: 40),
         _Arvltxt(),
-        SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         _End(),
-        SizedBox(
-          height: 40,
-        ),
+        const SizedBox(height: 40),
         _Footer(),
       ],
     );
@@ -98,35 +108,64 @@ class _HomePageState extends State<HomePage> {
 
   Widget _header() {
     return Padding(
-      padding: EdgeInsets.only(top: 60, right: 10),
+      padding: const EdgeInsets.only(top: 60, right: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Store Location',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold),
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: Colors.red,
-                    size: 16,
+          AnimatedContainer(
+            transform: Matrix4.translationValues(xoffset, yoffset, 0)
+              ..scale(isDrawerOpen ? 0.85 : 1.00)
+              ..rotateZ(isDrawerOpen ? -0.05 : 0),
+            duration: const Duration(milliseconds: 200),
+            color: Colors.white,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: isDrawerOpen
+                ? GestureDetector(
+                    child: const Icon(Icons.arrow_back_ios),
+                    onTap: _toggleDrawer, // Close drawer
+                  )
+                : GestureDetector(
+                    onTap: _toggleDrawer,
+                    child: ClipOval(
+                      child: Image.asset(
+                        "assets/image/four-circle2 (2).png",
+                        width: 30,
+                        height: 30,
+                        fit: BoxFit.contain,
+                      ),
+                    ), // Open drawer
                   ),
-                  Text(
-                    // _currentAddress
-                    "Ismailia,Egypt",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
+          ),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Store Location',
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      color: Colors.red,
+                      size: 16,
+                    ),
+                    Text(
+                      // _currentAddress
+                      "Ismailia,Egypt",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           Container(
             width: 45,
@@ -151,25 +190,25 @@ class _HomePageState extends State<HomePage> {
 
   Widget _srch() {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: TextField(
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
         // controller: ,
         decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,
             hintText: 'Looking for shoes',
-            hintStyle: TextStyle(color: Colors.grey),
-            prefixIcon: Icon(
+            hintStyle: const TextStyle(color: Colors.grey),
+            prefixIcon: const Icon(
               Icons.search,
               color: Colors.grey,
             ),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.white)),
+                borderSide: const BorderSide(color: Colors.white)),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.green))),
+                borderSide: const BorderSide(color: Colors.green))),
       ),
     );
   }
@@ -179,7 +218,7 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Container(
             width: 50,
             height: 50,
@@ -199,7 +238,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Container(
             width: 50,
             height: 50,
@@ -219,7 +258,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Container(
             width: 50,
             height: 50,
@@ -239,7 +278,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Container(
             width: 50,
             height: 50,
@@ -287,145 +326,94 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
   Widget _Bstsell() {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20),
-      child: Row(
-        children: [
-          Container(
-            width: 170,
-            height: 200,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage("assets/image/Nike4.png"),
-                  width: 200,
-                  height: 140,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "BEST SELLER",
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.cyan,
-                          fontFamily: "AIRBNB"),
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Container(
+        height: 200,
+        width: double.infinity,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          controller: _scrollController,
+          itemCount: ShoesDataModelList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: SizedBox(
+                width: (MediaQuery.of(context).size.width - 40) / 2,
+                child: Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(18),
+                              child: Image.asset(
+                                ShoesDataModelList[index].image,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  ShoesDataModelList[index].title,
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w800,
+                                      fontFamily: "AIRBNB"),
+                                ),
+                                Text(
+                                  "\$${ShoesDataModelList[index].price}",
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "AIRBNB"),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Nike Jordan",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontFamily: "AIRBNB"),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        Text(
-                          "\$ 493.00",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontFamily: "AIRBNB"),
+                     Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          shape: BoxShape.circle, // You can customize the shape here
                         ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 70),
-                            child: Icon(Icons.add)),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Container(
-            width: 170,
-            height: 200,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage("assets/image/Nike5.jpg"),
-                  width: 200,
-                  height: 140,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "BEST SELLER",
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.cyan,
-                          fontFamily: "AIRBNB"),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Nike Air Max",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontFamily: "AIRBNB"),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        Text(
-                          "\$ 897.99",
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontFamily: "AIRBNB"),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,// Replace with desired icon
+                          size: 24,
                         ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 70),
-                            child: Icon(Icons.add)),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
+
+
 
   Widget _Arvltxt() {
     return const Padding(
@@ -457,7 +445,7 @@ class _HomePageState extends State<HomePage> {
     return Row(
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Container(
             height: 140,
             width: 370,
@@ -533,62 +521,64 @@ class _HomePageState extends State<HomePage> {
     return Row(
       children: [
         Container(
-          width: 411,
-          height: 70,
-          color: Colors.white,
-          child:  Stack(
-            clipBehavior: Clip.none,
-            fit: StackFit.expand,
-            children: [
-              Positioned(
-                  left: 20,
-                  top: 20,
-                  child: Icon(
-                    Icons.home_outlined,
-                    color: Colors.grey,
-                  )),
-              Positioned(
-                  left: 90,
-                  top: 20,
-                  child: Icon(
-                    Icons.favorite_outline_rounded,
-                    color: Colors.grey,
-                  )),
-              Positioned(
-                  right: 20,
-                  top: 20,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.grey,
-                  )),
-              Positioned(
-                  right: 90,
-                  top: 20,
-                  child: Icon(
-                    Icons.notifications_none,
-                    color: Colors.grey,
-                  )),
-              Positioned(
-                  top: -20,
-                  right: 10,
-                  left: 0,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.cyan,
-                        shape: BoxShape.circle,
+            width: 411,
+            height: 70,
+            color: Colors.white,
+            child: Stack(
+              clipBehavior: Clip.none,
+              fit: StackFit.expand,
+              children: [
+                const Positioned(
+                    left: 20,
+                    top: 20,
+                    child: Icon(
+                      Icons.home_outlined,
+                      color: Colors.grey,
+                    )),
+                const Positioned(
+                    left: 90,
+                    top: 20,
+                    child: Icon(
+                      Icons.favorite_outline_rounded,
+                      color: Colors.grey,
+                    )),
+                const Positioned(
+                    right: 20,
+                    top: 20,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.grey,
+                    )),
+                const Positioned(
+                    right: 90,
+                    top: 20,
+                    child: Icon(
+                      Icons.notifications_none,
+                      color: Colors.grey,
+                    )),
+                Positioned(
+                    top: -20,
+                    right: 10,
+                    left: 0,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        margin: const EdgeInsets.only(bottom: 10),
+                        decoration: const BoxDecoration(
+                          color: Colors.cyan,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.shopping_bag_outlined,
+                          color: Colors.white,
+                        ),
                       ),
-                      child: Icon(Icons.shopping_bag_outlined,color: Colors.white,),
-                    ),
-                  ))
-            ],
-          )
-          ),
+                    ))
               ],
+            )),
+      ],
     );
   }
 }

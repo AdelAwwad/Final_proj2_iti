@@ -1,5 +1,9 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -8,9 +12,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
- late String _name ;
- late String _username ;
- late   String _password ;
+  late String _name;
+  late String _username;
+  late String _password;
+  File? _imageFile;
 
   @override
   void initState() {
@@ -18,17 +23,77 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadProfileData();
   }
 
-   Future <void> _loadProfileData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _name = prefs.getString('name') ?? 'No name';
-      _username = prefs.getString('username') ?? 'No email';
-      _password = prefs.getString('password') ?? 'No password';
-    });
+  Future<void> _loadProfileData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        _name = prefs.getString('name') ?? 'No name';
+        _username = prefs.getString('username') ?? 'No email';
+        _password = prefs.getString('password') ?? 'No password';
+        // Load the image path from SharedPreferences if saved
+        String? imagePath = prefs.getString('profile_image_path');
+        if (imagePath != null) {
+          _imageFile = File(imagePath);
+        }
+      });
+    } catch (e) {
+      // Handle errors during loading profile data
+      print("Error loading profile data: $e");
+    }
   }
 
   void _navigatetoprev() {
     Navigator.pop(context);
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        final directory = await getApplicationDocumentsDirectory();
+        final imagePath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+        final imageFile = File(image.path);
+        final savedImage = await imageFile.copy(imagePath);
+
+        setState(() {
+          _imageFile = savedImage;
+        });
+
+        // Save the image path in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('profile_image_path', savedImage.path);
+
+        // Show success notification
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Photo successfully uploaded!'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        // Handle case where user didn't pick an image
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('No image selected.'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      // Handle errors during image picking or saving
+      print("Error picking or saving image: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error picking or saving image.'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   @override
@@ -64,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _edit(),
-          const SizedBox(height: 150),
+          const SizedBox(height: 30),
           _img(),
           const SizedBox(height: 30),
           _prflData('Full Name', _name),
@@ -106,7 +171,21 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _img() {
-    return Container(); // Placeholder for image widget
+    return GestureDetector(
+      onTap: _pickImage,
+      child: CircleAvatar(
+        radius: 60,
+        backgroundColor: Colors.grey[300],
+        backgroundImage: _imageFile != null ? FileImage(_imageFile!) : null,
+        child: _imageFile == null
+            ? const Icon(
+          Icons.camera_alt,
+          color: Colors.white,
+          size: 40,
+        )
+            : null,
+      ),
+    );
   }
 
   Widget _prflData(String label, String value, {bool isPassword = false}) {
@@ -119,7 +198,6 @@ class _ProfilePageState extends State<ProfilePage> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: const BorderSide(color: Colors.white),
-
         ),
         filled: true,
         fillColor: Colors.white,

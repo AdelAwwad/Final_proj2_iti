@@ -68,15 +68,16 @@ class _SidewindowState extends State<Sidewindow> {
               Text(
                 'Hey, ',
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
+                    fontFamily: "AIRBNB",
                     color: Colors.grey,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w300),
               ),
               // Icon(Icons.ios,color: Colors.yellow,),
               Image(
                   image: AssetImage("assets/image/waving-hand-icon.png"),
                   width: 25,
-                  height: 25)
+                  height: 22)
             ],
           ),
           const SizedBox(
@@ -85,7 +86,7 @@ class _SidewindowState extends State<Sidewindow> {
           Text(
             _name ?? 'Loading ...',
             style: const TextStyle(
-                fontSize: 25, color: Colors.white, fontWeight: FontWeight.w400),
+                fontSize: 25, color: Colors.white, fontWeight: FontWeight.w400,fontFamily: "AIRBNB"),
           ),
           const SizedBox(
             height: 20,
@@ -106,6 +107,7 @@ class _SidewindowState extends State<Sidewindow> {
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
+                      fontFamily: "AIRBNB",
                       fontWeight:  FontWeight.w400),
                 ),
               ],
@@ -129,6 +131,7 @@ class _SidewindowState extends State<Sidewindow> {
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
+                      fontFamily: "AIRBNB",
                       fontWeight: FontWeight.w400),
                 ),
               ],
@@ -149,6 +152,7 @@ class _SidewindowState extends State<Sidewindow> {
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
+                    fontFamily: "AIRBNB",
                     fontWeight:  FontWeight.w400),
               ),
             ],
@@ -169,6 +173,7 @@ class _SidewindowState extends State<Sidewindow> {
                 'Favorite',
                 style: TextStyle(
                     fontSize: 20,
+                    fontFamily: "AIRBNB",
                     color: Colors.white,
                     fontWeight:  FontWeight.w400),
               ),
@@ -188,6 +193,7 @@ class _SidewindowState extends State<Sidewindow> {
                 'Orders',
                 style: TextStyle(
                     fontSize: 20,
+                    fontFamily: "AIRBNB",
                     color: Colors.white,
                     fontWeight:  FontWeight.w400),
               ),
@@ -207,6 +213,7 @@ class _SidewindowState extends State<Sidewindow> {
                 'Notifications',
                 style: TextStyle(
                     fontSize: 20,
+                    fontFamily: "AIRBNB",
                     color: Colors.white,
                     fontWeight: FontWeight.w400),
               ),
@@ -238,6 +245,7 @@ class _SidewindowState extends State<Sidewindow> {
                   'Sign Out',
                   style: TextStyle(
                       fontSize: 20,
+                      fontFamily: "AIRBNB",
                       color: Colors.white,
                       fontWeight: FontWeight.w400),
                 ),
