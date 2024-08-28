@@ -80,6 +80,7 @@ flutter:
     - assets/image/Nike5.jpg
     - assets/image/Nike6.png
     - assets/image/Nike6_Shadow.png
+    - assets/image/myphoto.jpeg
 
 
   fonts:

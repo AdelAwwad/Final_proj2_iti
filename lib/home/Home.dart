@@ -1,3 +1,4 @@
+import 'package:adel2/home/Sidewindow/SideWindow.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:location/location.dart' as loc; // Alias 'loc' used here
@@ -14,6 +15,9 @@ class _HomePageState extends State<HomePage> {
   //  String? _currentAddress = "Ismailia,Egypt";
   // // Use the alias 'loc'
   List<bool> isPressed = [false, true];
+  // void _navigateToSideWindow(){
+  //
+  // }
 
   @override
   void initState() {
@@ -29,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(top: 30),
-          child: Container(
+          child: SizedBox(
             width: 40,
             height: 40,
             child: FloatingActionButton(
@@ -44,7 +48,9 @@ class _HomePageState extends State<HomePage> {
                   height: 24,
                 ),
               ),
-              onPressed: () {},
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Sidewindow() ));
+                },
               elevation: 0.5,
             ),
           ),
@@ -86,8 +92,6 @@ class _HomePageState extends State<HomePage> {
           height: 40,
         ),
         _Footer(),
-
-
       ],
     );
   }
@@ -465,15 +469,14 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Stack(children: [
                   Positioned.fill(
-                    top: 20,
-                       left: 120,
+                      top: 20,
+                      left: 120,
                       child: Image.asset(
                         'assets/image/Nike6_Shadow.png',
                         width: 2,
                         height: 2,
                         fit: BoxFit.cover,
                       )),
-
                   Positioned(
                       left: 160,
                       top: 20,
@@ -481,7 +484,6 @@ class _HomePageState extends State<HomePage> {
                         'assets/image/Nike6.png',
                         width: 185,
                         height: 110,
-
                         fit: BoxFit.contain,
                       )),
                   const Positioned(
@@ -490,24 +492,23 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       "BEST CHOICE",
                       style: TextStyle(
-                           color: Colors.cyan ,
+                          color: Colors.cyan,
                           fontSize: 15,
                           fontWeight: FontWeight.w200,
                           fontFamily: "AIRBNB"),
                     ),
                   ),
-
                   const Positioned(
-                        top: 50,
-                        left: 15,
-                      child: Text(
-                        "New Air Jordan",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: "AIRBNB"),
-                      ),
-                      ),
+                    top: 50,
+                    left: 15,
+                    child: Text(
+                      "New Air Jordan",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "AIRBNB"),
+                    ),
+                  ),
                   const Positioned(
                     top: 100,
                     left: 15,
@@ -519,7 +520,6 @@ class _HomePageState extends State<HomePage> {
                           fontFamily: "AIRBNB"),
                     ),
                   )
-
                 ])
               ],
             ),
@@ -535,35 +535,60 @@ class _HomePageState extends State<HomePage> {
         Container(
           width: 411,
           height: 70,
-          color: Colors.grey,
-        ),
-        Expanded(
-            child: Stack(
-              clipBehavior: Clip.none,
-              fit:  StackFit.expand,
+          color: Colors.white,
+          child:  Stack(
+            clipBehavior: Clip.none,
+            fit: StackFit.expand,
             children: [
-
-
-
+              Positioned(
+                  left: 20,
+                  top: 20,
+                  child: Icon(
+                    Icons.home_outlined,
+                    color: Colors.grey,
+                  )),
+              Positioned(
+                  left: 90,
+                  top: 20,
+                  child: Icon(
+                    Icons.favorite_outline_rounded,
+                    color: Colors.grey,
+                  )),
+              Positioned(
+                  right: 20,
+                  top: 20,
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.grey,
+                  )),
+              Positioned(
+                  right: 90,
+                  top: 20,
+                  child: Icon(
+                    Icons.notifications_none,
+                    color: Colors.grey,
+                  )),
+              Positioned(
+                  top: -20,
+                  right: 10,
+                  left: 0,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.cyan,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.shopping_bag_outlined,color: Colors.white,),
+                    ),
+                  ))
             ],
-
-
-
-
-            ))
-      ],
-
-
+          )
+          ),
+              ],
     );
   }
-
-
-
-
-
-
-
-
-
 }
-
