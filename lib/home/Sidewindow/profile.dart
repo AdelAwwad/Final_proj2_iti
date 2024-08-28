@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:adel2/LogIn/Signup.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -9,9 +8,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String _name = "loading";
-  String _username = "loading";
-  String _password = "loading";
+ late String _name ;
+ late String _username ;
+ late   String _password ;
 
   @override
   void initState() {
@@ -19,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadProfileData();
   }
 
-  Future<void> _loadProfileData() async {
+   Future <void> _loadProfileData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _name = prefs.getString('name') ?? 'No name';
@@ -120,6 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: const BorderSide(color: Colors.white),
+
         ),
         filled: true,
         fillColor: Colors.white,
