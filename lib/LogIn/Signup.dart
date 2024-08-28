@@ -51,7 +51,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(color: Color(0xFFFFF8E1)),
+      decoration: const BoxDecoration(color: Color(0xFFF8F8F8)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
