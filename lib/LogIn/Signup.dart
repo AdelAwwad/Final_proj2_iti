@@ -27,7 +27,9 @@ class _SignUpState extends State<SignUp> {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  void _saveCredentials(String username, String password) async {
+  // Save the username and password using SharedPreferences
+  void _saveCredentials(String name, String username, String password) async {
+    await _prefs.setString('name', name);
     await _prefs.setString('username', username);
     await _prefs.setString('password', password);
   }
@@ -45,8 +47,6 @@ class _SignUpState extends State<SignUp> {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const HomePage()));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -206,15 +206,15 @@ class _SignUpState extends State<SignUp> {
   Widget _signupBtn() {
     return ElevatedButton(
       onPressed: () {
+        String name = yournamecontroller2.text;
         String username = usernamecontroller2.text;
         String password = passwordcontroller2.text;
 
-        // Save the credentials
-        _saveCredentials(username, password);
+        // Save the credentials including the new username
+        _saveCredentials(name, username, password);
 
-        // Navigate to login page
+        // Navigate to home page
         _NavigateToHomepage();
-
       },
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
