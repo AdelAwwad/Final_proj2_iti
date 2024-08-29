@@ -1,3 +1,4 @@
+import 'package:adel2/home/Men%20shoes/Men_shoes.dart';
 import 'package:adel2/home/Sidewindow/SideWindow.dart';
 import 'package:adel2/home/repository/Repository.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   void repodata() {
     ShoesDataModelList = [
       ShoesData("assets/image/Nike4.png", "Nike Jordan", 493.00),
-      ShoesData("assets/image/Nike5.jpg", "Nike Air Max", 897.99),
+      ShoesData("assets/image/Nike5+.png", "Nike Air Max", 897.99),
       ShoesData('assets/image/Nike6.png', "New Air Jordan", 849.69),
     ];
   }
@@ -63,7 +64,12 @@ class _HomePageState extends State<HomePage> {
       MaterialPageRoute(builder: (context) => const Sidewindow()),
     );
   }
-
+  void _navigateToMenShoes(ShoesData selectedShoe) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MenShoes(selectedShoe: selectedShoe)),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -343,48 +349,60 @@ class _HomePageState extends State<HomePage> {
                 width: (MediaQuery.of(context).size.width - 40) / 2,
                 child: Stack(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(18),
-                              child: Image.asset(
-                                ShoesDataModelList[index].image,
-                                fit: BoxFit.contain,
+                    InkWell(
+                      onTap: () => _navigateToMenShoes(ShoesDataModelList[index]),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(18),
+                                child: Image.asset(
+                                  ShoesDataModelList[index].image,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  ShoesDataModelList[index].title,
-                                  style: const TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w800,
-                                      fontFamily: "AIRBNB"),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const   Text("Best Seller" , style:  TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.cyan,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "AIRBNB"),
                                 ),
-                                Text(
-                                  "\$${ShoesDataModelList[index].price}",
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "AIRBNB"),
-                                ),
-                              ],
+                                  const SizedBox(height: 5,),
+
+                                  Text(
+                                    ShoesDataModelList[index].title,
+                                    style: const TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: "AIRBNB"),
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                    "\$${ShoesDataModelList[index].price}",
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "AIRBNB"),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                      Positioned(
