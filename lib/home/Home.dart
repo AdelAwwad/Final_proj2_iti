@@ -15,7 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<bool> isPressed = [false, true];
+  List<bool> isPressed = List.generate(5, (index) => index == 0);
+
   double xoffset = 0;
   double yoffset = 0;
   bool isDrawerOpen = false;
@@ -229,92 +230,75 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _slct() {
+    final List<Map<String, String>> items = [
+      {"image": "assets/image/Nike-Logo.png", "label": "Nike"},
+      {"image": "assets/image/Puma-Logo.png", "label": "Puma"},
+      {"image": "assets/image/Under-Armour-logo.png", "label": "Under \nArmour"},
+      {"image": "assets/image/adidas_PNG8.png", "label": "Adidas"},
+      {"image": "assets/image/Converse-Logo-2007.png", "label": "Converse"},
+    ];
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Container(
-            width: 50,
-            height: 50,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              child: const Center(
-                child: Image(image: AssetImage("assets/image/Nike-Logo.png")),
-              ),
-              onPressed: () {
-                setState(() {
-                  isPressed[0] = !isPressed[0];
-                });
-              },
-              backgroundColor: isPressed[0] ? Colors.blue : Colors.white,
-              elevation: 0.5,
+      children: List.generate(items.length, (index) {
+        bool isSelected = isPressed[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                isPressed = List.generate(items.length, (i) => i == index);
+              });
+            },
+            child: Row(
+              children: [
+                // Combined container for logo and text
+                Container(
+                  width: isSelected ? 100 : 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: isSelected ? Colors.blue : Colors.white,
+                    borderRadius: isSelected ? BorderRadius.circular(25) : BorderRadius.circular(50),
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Circular border around logo when selected
+                        Container(
+                          padding: EdgeInsets.all(3), // Padding to create space for the border
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isSelected ? Colors.white : Colors.transparent, // White color for the circular border
+                          ),
+                          child: Image.asset(
+                            items[index]['image']!,
+                            width: isSelected ? 30 : 40,
+                            height: isSelected ? 30 : 40,
+                          ),
+                        ),
+                        if (isSelected) ...[
+                          const SizedBox(width: 5), // Add space between logo and text
+                          Text(
+                            items[index]['label']!,
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Container(
-            width: 50,
-            height: 50,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              child: const Center(
-                child: Image(image: AssetImage("assets/image/Nike-Logo.png")),
-              ),
-              onPressed: () {
-                setState(() {
-                  isPressed[0] = !isPressed[0];
-                });
-              },
-              backgroundColor: isPressed[0] ? Colors.blue : Colors.white,
-              elevation: 0.5,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Container(
-            width: 50,
-            height: 50,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              child: const Center(
-                child: Image(image: AssetImage("assets/image/Nike-Logo.png")),
-              ),
-              onPressed: () {
-                setState(() {
-                  isPressed[0] = !isPressed[0];
-                });
-              },
-              backgroundColor: isPressed[0] ? Colors.blue : Colors.white,
-              elevation: 0.5,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Container(
-            width: 50,
-            height: 50,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              child: const Center(
-                child: Image(image: AssetImage("assets/image/Nike-Logo.png")),
-              ),
-              onPressed: () {
-                setState(() {
-                  isPressed[0] = !isPressed[0];
-                });
-              },
-              backgroundColor: isPressed[0] ? Colors.blue : Colors.white,
-              elevation: 0.5,
-            ),
-          ),
-        ),
-      ],
+        );
+      }),
     );
   }
+
+
+
+  // "assets/image/Nike-Logo.png"
 
   Widget _Poptxt() {
     return const Padding(

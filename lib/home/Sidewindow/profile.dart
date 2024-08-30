@@ -25,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _loadProfileData() async {
+   
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
@@ -69,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
         // Show success notification
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Photo successfully uploaded!'),
             backgroundColor: Colors.green,
             duration: Duration(seconds: 2),
@@ -78,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
       } else {
         // Handle case where user didn't pick an image
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('No image selected.'),
             backgroundColor: Colors.red,
             duration: Duration(seconds: 2),
@@ -89,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
       // Handle errors during image picking or saving
       print("Error picking or saving image: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Error picking or saving image.'),
           backgroundColor: Colors.red,
           duration: Duration(seconds: 2),
@@ -131,14 +132,20 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _edit(),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           _img(),
-          const SizedBox(height: 30),
-          _prflData('Full Name', _name),
-          const SizedBox(height: 30),
-          _prflData('Email Address', _username),
-          const SizedBox(height: 30),
-          _prflData('Password', _password, isPassword: true),
+          const SizedBox(height: 20),
+          _fulnam(),
+          const SizedBox(height: 10),
+          _prflData( _name),
+          const SizedBox(height: 20),
+          _email(),
+          const SizedBox(height: 10),
+          _prflData( _username),
+          const SizedBox(height: 20),
+          _pass(),
+          const SizedBox(height: 10),
+          _prflData( _password, isPassword: true),
         ],
       ),
     );
@@ -173,31 +180,82 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _img() {
-    return GestureDetector(
-      onTap: _pickImage,
-      child: CircleAvatar(
-        radius: 60,
-        backgroundColor: Colors.grey[300],
-        backgroundImage: _imageFile != null ? FileImage(_imageFile!) : null,
-        child: _imageFile == null
-            ? const Icon(
-          Icons.camera_alt,
-          color: Colors.white,
-          size: 40,
-        )
-            : null,
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: _pickImage,
+          child: CircleAvatar(
+            radius: 60,
+            backgroundColor: Colors.grey[300],
+            backgroundImage: _imageFile != null ? FileImage(_imageFile!) : null,
+            child: _imageFile == null
+                ? const Icon(
+              Icons.camera_alt,
+              color: Colors.white,
+              size: 40,
+            )
+                : null,
+          ),
+        ),
+        Text(_name, style: const TextStyle(
+            fontSize: 25, color: Colors.black, fontWeight: FontWeight.w400,fontFamily: "AIRBNB"),)
+      ],
+    );
+  }
+
+  Widget _fulnam() {
+    return Container(
+      child:  const Align(
+        alignment: Alignment.topLeft,
+        child: Text("Full Name" ,style:  TextStyle(
+            fontSize: 17,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontFamily: "AIRBNB"), ),
       ),
     );
   }
 
-  Widget _prflData(String label, String value, {bool isPassword = false}) {
+  Widget _email() {
+    return Container(
+      child:  const Align(
+        alignment: Alignment.topLeft,
+        child: Text("Email Address" ,style:  TextStyle(
+            fontSize: 17,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontFamily: "AIRBNB"), ),
+      ),
+    );
+  }
+
+
+  Widget _pass() {
+    return Container(
+      child:  const Align(
+        alignment: Alignment.topLeft,
+        child: Text("Password" ,style:  TextStyle(
+            fontSize: 17,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontFamily: "AIRBNB"), ),
+      ),
+    );
+  }
+
+
+
+  Widget _prflData(String value, {bool isPassword = false}) {
     return TextField(
       controller: TextEditingController(text: value),
       readOnly: true,
       obscureText: isPassword,
       decoration: InputDecoration(
-        labelText: label,
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: const BorderSide(color: Colors.white),
         ),
