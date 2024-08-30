@@ -1,7 +1,10 @@
 import 'package:adel2/LogIn/LogIn.dart';
+import 'package:adel2/home/Home.dart';
+import 'package:adel2/home/Sidewindow/Notification.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'profile.dart';
+import 'Favorite.dart';
 class Sidewindow extends StatefulWidget {
   const Sidewindow({super.key});
 
@@ -17,15 +20,21 @@ class _SidewindowState extends State<Sidewindow> {
     _loadName();
     super.initState();
   }
+  void _navigateToNotifaication(){
+    Navigator.push(context,MaterialPageRoute(builder: (context) => NotificationPage()));
+  }
 
   void _navigateToProfilePage() {
     Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
   }
   void _navigateTohHomePage(){
-    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   }
   void _navigateToSignIn(){
     Navigator.push(context, MaterialPageRoute(builder: (context) => LogInPage()));
+  }
+  void _navigateToFavoritePage(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
   }
 
   void _loadName() async {
@@ -161,23 +170,26 @@ class _SidewindowState extends State<Sidewindow> {
           ),
 
 
-          Row(
-            children: [
-              IconButton(icon: const Icon(Icons.favorite_outline_rounded ,size: 20,color: Colors.grey),
-                onPressed:(){},
-                padding: EdgeInsets.zero,
+          GestureDetector(
+            onTap: _navigateToFavoritePage,
+            child: Row(
+              children: [
+                IconButton(icon: const Icon(Icons.favorite_outline_rounded ,size: 20,color: Colors.grey),
+                  onPressed:_navigateToFavoritePage,
+                  padding: EdgeInsets.zero,
 
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'Favorite',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "AIRBNB",
-                    color: Colors.white,
-                    fontWeight:  FontWeight.w400),
-              ),
-            ],
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'Favorite',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "AIRBNB",
+                      color: Colors.white,
+                      fontWeight:  FontWeight.w400),
+                ),
+              ],
+            ),
           ), const   SizedBox(
             height: 20,
           ),
@@ -201,25 +213,28 @@ class _SidewindowState extends State<Sidewindow> {
           ),  const   SizedBox(
             height: 20,
           ),
-          Row(
-            children: [
-              IconButton(icon: const Icon(Icons.notifications_none ,size: 20,color: Colors.grey),
-                onPressed:(){},
-                padding: EdgeInsets.zero,
+          GestureDetector(
+            onTap: _navigateToNotifaication,
+            child: Row(
+              children: [
+                IconButton(icon: const Icon(Icons.notifications_none ,size: 20,color: Colors.grey),
+                  onPressed:_navigateToNotifaication,
+                  padding: EdgeInsets.zero,
 
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'Notifications',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "AIRBNB",
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400),
-              ),
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'Notifications',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "AIRBNB",
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400),
+                ),
 
-            ],
+              ],
 
+            ),
           ),
           const SizedBox(height: 20,),
           const Divider(

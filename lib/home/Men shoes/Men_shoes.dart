@@ -1,3 +1,4 @@
+import 'package:adel2/home/Best%20seller/BestSeller.dart';
 import 'package:flutter/material.dart';
 import 'package:adel2/home/repository/Repository.dart';
 
@@ -36,7 +37,7 @@ class _MenShoesState extends State<MenShoes> {
     ShoesDataModelList = [
       ShoesData("assets/image/Nike4.png", "Nike Jordan", 493.00),
       ShoesData("assets/image/Nike5+.png", "Nike Air Max", 897.99),
-      ShoesData('assets/image/Nike6.png', "New Air Jordan", 849.69),
+      ShoesData('assets/image/Nike6.png', "Nike Air Jordan", 849.69),
     ];
     setState(() {}); // Call setState to trigger a rebuild with the updated data
   }
@@ -44,7 +45,9 @@ class _MenShoesState extends State<MenShoes> {
   void _navigateToPrev() {
     Navigator.pop(context);
   }
-
+  void _navigateToBstslrPage(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const Bestseller()));
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -140,19 +143,23 @@ class _MenShoesState extends State<MenShoes> {
     return Container(
       height: 500,
       width: double.infinity,
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration:  BoxDecoration(color: Colors.white,
+      borderRadius: BorderRadius.circular(18) ),
       child: Padding(
         padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "BEST SELLER",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.cyan,
-                fontWeight: FontWeight.w500,
-                fontFamily: "AIRBNB",
+            TextButton(
+              onPressed:_navigateToBstslrPage ,
+              child: const Text(
+                "BEST SELLER",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.cyan,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "AIRBNB",
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -254,7 +261,7 @@ class _MenShoesState extends State<MenShoes> {
               ],
             ),
             const SizedBox(height: 10),
-            Row(
+            const Row(
 
 
             )

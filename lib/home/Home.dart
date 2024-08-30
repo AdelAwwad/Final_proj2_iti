@@ -1,4 +1,6 @@
 import 'package:adel2/home/Men%20shoes/Men_shoes.dart';
+import 'package:adel2/home/Sidewindow/Favorite.dart';
+import 'package:adel2/home/Sidewindow/Notification.dart';
 import 'package:adel2/home/Sidewindow/SideWindow.dart';
 import 'package:adel2/home/repository/Repository.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     ShoesDataModelList = [
       ShoesData("assets/image/Nike4.png", "Nike Jordan", 493.00),
       ShoesData("assets/image/Nike5+.png", "Nike Air Max", 897.99),
-      ShoesData('assets/image/Nike6.png', "New Air Jordan", 849.69),
+      ShoesData('assets/image/Nike6.png', "Nike Air Jordan", 849.69),
     ];
   }
 
@@ -69,6 +71,13 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(builder: (context) => MenShoes(selectedShoe: selectedShoe)),
     );
+  }
+  void _navigateToFavoritePage(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
+  }
+
+  void _navigateToNotifaication(){
+    Navigator.push(context,MaterialPageRoute(builder: (context) => NotificationPage()));
   }
   @override
   Widget build(BuildContext context) {
@@ -346,7 +355,7 @@ class _HomePageState extends State<HomePage> {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: SizedBox(
-                width: (MediaQuery.of(context).size.width - 40) / 2,
+                width: (MediaQuery.of(context).size.width - 70) / 2,
                 child: Stack(
                   children: [
                     InkWell(
@@ -390,13 +399,34 @@ class _HomePageState extends State<HomePage> {
                                         fontFamily: "AIRBNB"),
                                   ),
                                   const SizedBox(height: 5,),
-                                  Text(
-                                    "\$${ShoesDataModelList[index].price}",
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "AIRBNB"),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "\$${ShoesDataModelList[index].price}",
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "AIRBNB"),
+                                      ),
+                                      Positioned(
+                                        bottom: 8,
+                                        right: 8,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.blue,
+                                            shape: BoxShape.circle, // You can customize the shape here
+                                          ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: Colors.white,// Replace with desired icon
+                                            size: 24,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -405,22 +435,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                     Positioned(
-                      bottom: 8,
-                      right: 8,
-                      child: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: const BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle, // You can customize the shape here
-                        ),
-                        child: const Icon(
-                          Icons.add,
-                          color: Colors.white,// Replace with desired icon
-                          size: 24,
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
               ),
@@ -553,12 +568,15 @@ class _HomePageState extends State<HomePage> {
                       Icons.home_outlined,
                       color: Colors.grey,
                     )),
-                const Positioned(
+                Positioned(
                     left: 90,
-                    top: 20,
-                    child: Icon(
-                      Icons.favorite_outline_rounded,
-                      color: Colors.grey,
+                    top: 9,
+                    child: IconButton(
+                      onPressed:_navigateToFavoritePage ,
+                      icon:  Icon(
+                        Icons.favorite_outline_rounded,
+                        color: Colors.grey,
+                      ),
                     )),
                 const Positioned(
                     right: 20,
@@ -567,12 +585,15 @@ class _HomePageState extends State<HomePage> {
                       Icons.person,
                       color: Colors.grey,
                     )),
-                const Positioned(
+                 Positioned(
                     right: 90,
-                    top: 20,
-                    child: Icon(
-                      Icons.notifications_none,
-                      color: Colors.grey,
+                    top: 9,
+                    child: IconButton(
+                      onPressed:_navigateToNotifaication ,
+                      icon:  Icon(
+                        Icons.notifications_none,
+                        color: Colors.grey,
+                      ),
                     )),
                 Positioned(
                     top: -20,

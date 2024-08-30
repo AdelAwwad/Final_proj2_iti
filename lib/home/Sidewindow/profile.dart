@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -45,6 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void _navigatetoprev() {
     Navigator.pop(context);
   }
+
 
   Future<void> _pickImage() async {
     try {
@@ -111,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: _navigatetoprev,
             elevation: 0.5,
             child: const Icon(
-              Icons.arrow_back_ios,
+              Icons.arrow_back_ios_new,
               color: Colors.black,
               size: 20,
             ),
