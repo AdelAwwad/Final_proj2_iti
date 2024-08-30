@@ -1,7 +1,11 @@
 import 'package:adel2/LogIn/LogIn.dart';
 import 'package:adel2/home/Home.dart';
 import 'package:adel2/home/Sidewindow/Notification.dart';
+import 'package:adel2/home/Sidewindow/bloc/cart_bloc.dart';
+import 'package:adel2/home/Sidewindow/mycart.dart';
+import 'package:adel2/home/repository/cart_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'profile.dart';
 import 'Favorite.dart';
@@ -21,21 +25,33 @@ class _SidewindowState extends State<Sidewindow> {
     super.initState();
   }
   void _navigateToNotifaication(){
-    Navigator.push(context,MaterialPageRoute(builder: (context) => NotificationPage()));
+    Navigator.push(context,MaterialPageRoute(builder: (context) => const NotificationPage()));
   }
 
   void _navigateToProfilePage() {
-    Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
+    Navigator.push(context,MaterialPageRoute(builder: (context) => const ProfilePage()));
   }
   void _navigateTohHomePage(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
   }
   void _navigateToSignIn(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LogInPage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInPage()));
   }
   void _navigateToFavoritePage(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => FavoritePage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritePage()));
   }
+  void _navigateToCartPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) => CartBloc(CartRepository()), // Provide CartBloc here
+          child: Mycart(),
+        ),
+      ),
+    );
+  }
+
 
   void _loadName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -148,23 +164,26 @@ class _SidewindowState extends State<Sidewindow> {
           ),  const   SizedBox(
             height: 20,
           ),
-          Row(
-            children: [
-              IconButton(icon: const Icon(Icons.shopping_bag_outlined ,size: 20,color: Colors.grey),
-                onPressed:() {},
-                padding: EdgeInsets.zero,
+          GestureDetector(
+            onTap: _navigateToCartPage,
+            child: Row(
+              children: [
+                IconButton(icon: const Icon(Icons.shopping_bag_outlined ,size: 20,color: Colors.grey),
+                  onPressed:_navigateToCartPage,
+                  padding: EdgeInsets.zero,
 
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                'My Cart',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontFamily: "AIRBNB",
-                    fontWeight:  FontWeight.w400),
-              ),
-            ],
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'My Cart',
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily: "AIRBNB",
+                      fontWeight:  FontWeight.w400),
+                ),
+              ],
+            ),
           ),  const   SizedBox(
             height: 20,
           ),

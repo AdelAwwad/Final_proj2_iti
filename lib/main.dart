@@ -1,5 +1,8 @@
+import 'package:adel2/home/Sidewindow/bloc/cart_bloc.dart';
+import 'package:adel2/home/repository/cart_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:adel2/onboard/OnBoardMain.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,16 +14,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CartBloc>(
+          create: (context) => CartBloc(CartRepository()),
+        ),
+        // Add other Blocs here if needed
+      ],
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+
+
+
+
+
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home:  const Splash(),
+
       ),
-      home:  const Splash(),
-
     );
   }
 }

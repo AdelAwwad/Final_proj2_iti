@@ -2,6 +2,7 @@ import 'package:adel2/home/Men%20shoes/Men_shoes.dart';
 import 'package:adel2/home/Sidewindow/Favorite.dart';
 import 'package:adel2/home/Sidewindow/Notification.dart';
 import 'package:adel2/home/Sidewindow/SideWindow.dart';
+import 'package:adel2/home/Sidewindow/mycart.dart';
 import 'package:adel2/home/repository/Repository.dart';
 import 'package:flutter/material.dart';
 
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
+
   void _toggleDrawer() {
     setState(() {
       if (isDrawerOpen) {
@@ -80,6 +82,7 @@ class _HomePageState extends State<HomePage> {
   void _navigateToNotifaication(){
     Navigator.push(context,MaterialPageRoute(builder: (context) => NotificationPage()));
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
